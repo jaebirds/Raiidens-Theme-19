@@ -7,10 +7,18 @@
  |  Theme #19 by raiidens (@ tumblr)
  |  Published September 2016
  |	Updated February 2017
- |  Ver. 1.03
+ |  Ver. 1.04
  |
  |  Edit as much as you like, but please do not
  |  claim as your own work, and leave credit somewhere.
+ |
+ |  ! IMPORTANT !
+ |  - search for USERNAME and add in your blog URL to make asks work
+ |  - if you don't want the welcome message, just leave it blank
+ |  - there's a special place for visitor/hit counters, search "visitor counter script" for that
+ |  - search "edit extra tab" to edit that, and "edit sidebar" to edit that
+ |	- the second and third extra tabs can be found at "edit extra tab 2" and "edit extra tab 3"
+ |  - everything else is found in the options before
  |
  |  Credits:
  |  Font Awesome Icons - https://fortawesome.github.io/Font-Awesome/
@@ -21,12 +29,6 @@
  |  Lazy Load - http://www.appelsiini.net/projects/lazyload
  |  PXU Photoset Extended - https://github.com/PixelUnion/Extended-Tumblr-Photoset
  |
- |  ! IMPORTANT !
- |  - search for USERNAME and add in your blog URL to make asks work
- |  - if you don't want the welcome message, just leave it blank
- |  - there's a special place for visitor/hit counters, search "visitor counter script" for that
- |  - search "edit extra tab" to edit that, and "edit sidebar" to edit that
- |  - everything else is found in the options before
  |
  -->
 
@@ -42,7 +44,9 @@
 <meta name="if:Show captions" content="1">
 <meta name="if:Always show tags" content="0">
 <meta name="if:Disable ask" content="0">
-<meta name="if:Disable extra tab" content="0">
+<meta name="if:Disable extra tab 1" content="0">
+<meta name="if:Disable extra tab 2" content="0">
+<meta name="if:Disable extra tab 3" content="0">
 <meta name="if:Black and white images" content="0">
 <meta name="if:Color images on hover" content="0">
 <meta name="if:Inverted tumblr buttons" content="1">
@@ -104,7 +108,9 @@
 <meta name="color:Back to top button hover" content="#000000">
 
 <meta name="text:Welcome message" content="Hi welcome to">
-<meta name="text:Extra tab link text" content="Info">
+<meta name="text:Extra tab 1 link text" content="Info">
+<meta name="text:Extra tab 2 link text" content="Tab 2">
+<meta name="text:Extra tab 3 link text" content="Tab 3">
 <meta name="text:Post border radius" content="3">
 <meta name="text:Link 1 Title" content="Link 1">
 <meta name="text:Link 1 URL" content="">
@@ -696,14 +702,14 @@ a:hover {color: {color:Post link hover};}
 }
 #visitorinfo a {color: #555555;}
 
-#content, #msgcont, #extabcont {
+#content, #msgcont, #extab1cont, #extab2cont, #extab3cont {
     width: 500px;
     {block:If400pxPosts}width: 400px;{/block:If400pxPosts}
     {block:If250pxPosts}width: 250px;{/block:If250pxPosts}
     margin: 0px auto;
 }
 
-#msgcont, #extabcont {
+#msgcont, #extab1cont, #extab2cont, #extab3cont {
     position: absolute;
     top: 105px;
     left: 50%;
@@ -717,12 +723,12 @@ a:hover {color: {color:Post link hover};}
     overflow-x: none;
 }
 
-#msgcont .post::-webkit-scrollbar, #extabcont .post::-webkit-scrollbar {
+#msgcont .post::-webkit-scrollbar, #extab1cont .post::-webkit-scrollbar, #extab2cont .post::-webkit-scrollbar, #extab3cont .post::-webkit-scrollbar {
     width: 10px;
     background-color: {color:Content scrollbar};
     border: solid 4px {color:Post background};
 }
-#msgcont .post::-webkit-scrollbar-thumb, #extabcont .post::-webkit-scrollbar-thumb {
+#msgcont .post::-webkit-scrollbar-thumb, #extab1cont .post::-webkit-scrollbar-thumb, #extab2cont .post::-webkit-scrollbar-thumb, #extab3cont .post::-webkit-scrollbar-thumb {
     height: 12px;
     border: solid 2px {color:Post background};
     background-color: {color:Content scrollbar};
@@ -811,7 +817,9 @@ $(document).tooltip({
         <a href="/"><div class="link" id="home-link">home</div></a>
         <div class="link link-selected" id="content-link">content</div>
         {block:IfNotDisableAsk}<div class="link" id="msg-link">message</div>{/block:IfNotDisableAsk}
-        {block:IfNotDisableExtraTab}<div class="link" id="extab-link">{text:Extra tab link text}</div>{/block:IfNotDisableExtraTab}
+        {block:IfNotDisableExtraTab1}<div class="link" id="extab1-link">{text:Extra tab 1 link text}</div>{/block:IfNotDisableExtraTab1}
+		{block:IfNotDisableExtraTab2}<div class="link" id="extab2-link">{text:Extra tab 2 link text}</div>{/block:IfNotDisableExtraTab2}
+		{block:IfNotDisableExtraTab3}<div class="link" id="extab3-link">{text:Extra tab 3 link text}</div>{/block:IfNotDisableExtraTab3}
         {block:IfLink1Title}<a href="{text:Link 1 URL}"><div class="link">{text:Link 1 Title}</div></a>{/block:IfLink1Title}
         {block:IfLink2Title}<a href="{text:Link 2 URL}"><div class="link">{text:Link 2 Title}</div></a>{/block:IfLink2Title}
         {block:IfLink3Title}<a href="{text:Link 3 URL}"><div class="link">{text:Link 3 Title}</div></a>{/block:IfLink3Title}
@@ -860,11 +868,11 @@ $(document).tooltip({
 
 
 
-    {block:IfNotDisableExtraTab}<div id="extabcont"><div class="post max-height"><div class="content">
+    {block:IfNotDisableExtraTab1}<div id="extab1cont"><div class="post max-height"><div class="content">
 
 
 
-    <!-- Edit extra tab below -->
+    <!-- Edit extra tab 1 below -->
 
 
 
@@ -876,11 +884,59 @@ $(document).tooltip({
     
     
     
-    <!-- End extra tab -->
+    <!-- End extra tab 1 -->
     
     
     
-</div></div></div>{/block:IfNotDisableExtraTab}
+</div></div></div>{/block:IfNotDisableExtraTab1}
+
+
+
+    {block:IfNotDisableExtraTab2}<div id="extab2cont"><div class="post max-height"><div class="content">
+
+
+
+    <!-- Edit extra tab 2 below -->
+
+
+
+    <h1>Title</h1>
+    
+    <p>Here is an extra tab you can use to put whatever you want in. You can also disable it if you don't need it.</p>
+    
+    <p>Paragraph goes here</p>
+    
+    
+    
+    <!-- End extra tab 2 -->
+    
+    
+    
+</div></div></div>{/block:IfNotDisableExtraTab2}
+
+
+
+    {block:IfNotDisableExtraTab3}<div id="extab3cont"><div class="post max-height"><div class="content">
+
+
+
+    <!-- Edit extra tab 3 below -->
+
+
+
+    <h1>Title</h1>
+    
+    <p>Here is an extra tab you can use to put whatever you want in. You can also disable it if you don't need it.</p>
+    
+    <p>Paragraph goes here</p>
+    
+    
+    
+    <!-- End extra tab 3 -->
+    
+    
+    
+</div></div></div>{/block:IfNotDisableExtraTab3}
     
     
     
@@ -1271,9 +1327,9 @@ $(document).ready(function(){
             currentLink.animate({color: "{color:Nav link text selected}", textShadow: "0px 0px 0px rgba(0, 0, 0, 0)"}, 0);
       }
    });{/block:IfNotDisableAsk}
-   {block:IfNotDisableExtraTab}
-   $("#extab-link").click(function() {
-      if (currentWindow.attr("id") != "extabcont") {
+   {block:IfNotDisableExtraTab1}
+   $("#extab1-link").click(function() {
+      if (currentWindow.attr("id") != "extab1cont") {
           if (currentWindow.attr("id") != "content")
             currentWindow.fadeOut(500);
         else
@@ -1281,14 +1337,50 @@ $(document).ready(function(){
           currentLink.removeClass("link-selected");
           if ($(window).scrollTop() >= 425)
             currentLink.animate({color: "{color:Nav link text on scroll}", textShadow: "0px 0px 0px rgba(0, 0, 0, 0)"}, 0);
-          currentWindow = $("#extabcont");
-          currentLink = $("#extab-link");
+          currentWindow = $("#extab1cont");
+          currentLink = $("#extab1-link");
           currentWindow.fadeIn(500);
           currentLink.addClass("link-selected");
           if ($(window).scrollTop() >= 425)
             currentLink.animate({color: "{color:Nav link text selected}", textShadow: "0px 0px 0px rgba(0, 0, 0, 0)"}, 0);
       }
-   });{/block:IfNotDisableExtraTab}
+   });{/block:IfNotDisableExtraTab1}
+   {block:IfNotDisableExtraTab2}
+   $("#extab2-link").click(function() {
+      if (currentWindow.attr("id") != "extab2cont") {
+          if (currentWindow.attr("id") != "content")
+            currentWindow.fadeOut(500);
+        else
+            $("#content").animate({opacity: 0, pointerEvents: "none"}, 500);
+          currentLink.removeClass("link-selected");
+          if ($(window).scrollTop() >= 425)
+            currentLink.animate({color: "{color:Nav link text on scroll}", textShadow: "0px 0px 0px rgba(0, 0, 0, 0)"}, 0);
+          currentWindow = $("#extab2cont");
+          currentLink = $("#extab2-link");
+          currentWindow.fadeIn(500);
+          currentLink.addClass("link-selected");
+          if ($(window).scrollTop() >= 425)
+            currentLink.animate({color: "{color:Nav link text selected}", textShadow: "0px 0px 0px rgba(0, 0, 0, 0)"}, 0);
+      }
+   });{/block:IfNotDisableExtraTab2}
+   {block:IfNotDisableExtraTab3}
+   $("#extab3-link").click(function() {
+      if (currentWindow.attr("id") != "extab3cont") {
+          if (currentWindow.attr("id") != "content")
+            currentWindow.fadeOut(500);
+        else
+            $("#content").animate({opacity: 0, pointerEvents: "none"}, 500);
+          currentLink.removeClass("link-selected");
+          if ($(window).scrollTop() >= 425)
+            currentLink.animate({color: "{color:Nav link text on scroll}", textShadow: "0px 0px 0px rgba(0, 0, 0, 0)"}, 0);
+          currentWindow = $("#extab3cont");
+          currentLink = $("#extab3-link");
+          currentWindow.fadeIn(500);
+          currentLink.addClass("link-selected");
+          if ($(window).scrollTop() >= 425)
+            currentLink.animate({color: "{color:Nav link text selected}", textShadow: "0px 0px 0px rgba(0, 0, 0, 0)"}, 0);
+      }
+   });{/block:IfNotDisableExtraTab3}
    
     {block:IfNotAlwaysShowTags}
     $(".tagtoggle").click(function() {
