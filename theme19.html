@@ -6,7 +6,8 @@
  |
  |  Theme #19 by raiidens (@ tumblr)
  |  Published September 2016
- |  Ver. 1.02
+ |	Updated February 2017
+ |  Ver. 1.03
  |
  |  Edit as much as you like, but please do not
  |  claim as your own work, and leave credit somewhere.
@@ -775,6 +776,15 @@ a:hover {color: {color:Post link hover};}
 }
 
 
+#overlay {
+    position: absolute;
+    height: 100%;
+    width: 200vh;
+    background-color: {color:Background};
+    z-index: 99999999;
+}
+
+
 {CustomCSS}
 </style>
 <script>
@@ -786,6 +796,7 @@ $(document).tooltip({
 </head>
 <body>
 
+<div id="overlay"></div>
 
 <div class="back-to-top"><i class="fa fa-arrow-up fa-2x" aria-hidden="true"></i><br>to top</div>
 
@@ -797,7 +808,7 @@ $(document).tooltip({
 <div id="menu-bar">
     <div id="hamburger-menu"><span class="burg"></span><span class="burg"></span><span class="burg"></span><span class="burg"></span></div>
     <div class="link-container">
-        <a href="/"><div class="link">home</div></a>
+        <a href="/"><div class="link" id="home-link">home</div></a>
         <div class="link link-selected" id="content-link">content</div>
         {block:IfNotDisableAsk}<div class="link" id="msg-link">message</div>{/block:IfNotDisableAsk}
         {block:IfNotDisableExtraTab}<div class="link" id="extab-link">{text:Extra tab link text}</div>{/block:IfNotDisableExtraTab}
@@ -1128,6 +1139,8 @@ $(document).ready(function(){
         $("html, body").animate({ scrollTop: 425 }, 0);
     }
     
+    {block:IndexPage}$("#home-link").hide();{/block:IndexPage}
+    
     var mlink = {select:Menu links};
     if (mlink == 0)
         $(".link-container").css({"left": "50%", "transform": "translate(-50%, -50%)"});
@@ -1199,6 +1212,7 @@ $(document).ready(function(){
    $("#top-container").show();
    $("#menu-bar").show();
    $("#content").show();
+   $("#overlay").hide();
 
     $(".blog-title").click(function() {
         $('html, body').animate({scrollTop: 425}, 1000);
