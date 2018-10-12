@@ -4,8 +4,8 @@
  |
  |  Theme #19 by raiidens (@ tumblr)
  |  Published September 2016
- |	Updated September 2018
- |  Ver. 3.01
+ |	Updated October 2018
+ |  Ver. 3.02
  |
  |  Edit as much as you like, but please do not
  |  claim as your own work, and leave credit somewhere.
@@ -60,9 +60,6 @@
 <meta name="select:Lazy load images" content="lazy-load-normal" title="normal">
 <meta name="select:Lazy load images" content="lazy-load-fade" title="fade in images on load">
 <meta name="select:Lazy load images" content="lazy-load-none" title="none">
-
-<meta name="select:Post comments" content="post-comments-unnest" title="unnest">
-<meta name="select:Post comments" content="post-comments-default" title="default">
 
 <meta name="select:Post link underline" content="post-link-underline-enable" title="enabled">
 <meta name="select:Post link underline" content="post-link-underline-disable" title="disabled">
@@ -175,7 +172,7 @@
 <meta name="font:Post title font" content="'Montserrat', sans-serif">
 
 <link href='//fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.3.1/css/all.css">
 
 <link href="//static.tumblr.com/qudkd6d/OcDnl99gb/style.css" rel="stylesheet" type="text/css"/>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -352,12 +349,10 @@ a:hover {color: {color:Post link hover};}
 
 .photo, .photoset {padding: 0px;}
 
-.photoset .photo-slideshow {
-    margin-bottom: 3px;
-}
+.photoset .photo-slideshow {margin-bottom: 3px;}
 
 .post .caption.post-captions-disabled {display: none;}
-.post .permalink-caption.post-captions-enabled {display: none;}
+.post .permalink-caption {display: block !important;}
 
 .content {padding: 10px;}
 
@@ -511,7 +506,10 @@ a:hover {color: {color:Post link hover};}
 
 .reblog-button svg path, .like-button svg path {fill: {color:Reblog and like buttons};}
 
-.like-button {position: relative;}
+.like-button {
+    position: relative;
+    cursor: pointer;
+}
 .like-button .like_button {
     position: absolute;
     top: 0;
@@ -525,16 +523,10 @@ a:hover {color: {color:Post link hover};}
     top: -6px !important;
 }
 
-.tag-toggle.post-tags-always-show {
-    display: none;
-}
-.tag-toggle span {
-    cursor: pointer;
-}
+.tag-toggle.post-tags-always-show {display: none;}
+.tag-toggle span {cursor: pointer;}
 
-.tags.post-tags-default {
-    display: none;
-}
+.tags.post-tags-default {display: none;}
 .tags a {
     color: {color:Post info tags};
     margin-right: 5px;
@@ -1043,7 +1035,7 @@ a:hover {color: {color:Post link hover};}
 $(document).tooltip({
     track: true,
     tooltipClass: "tooltiptheme",
-    items: ".tooltip"
+    items: "*[title]"
 });
 </script>
 </head>
@@ -1254,20 +1246,48 @@ $(document).tooltip({
     <div class="post {select:Post images}" id="{PostID}">
 
         {block:Text}
-        <div class="text"><div class="content {select:Post link underline}">
-            {block:Title}<h3 class="title"><a href="{Permalink}">{Title}</a></h3>{/block:Title}
-            {Body}
-        </div></div>
+        <div class="text">
+            <div class="content {select:Post link underline}">
+                {block:Title}<h3 class="title"><a href="{Permalink}">{Title}</a></h3>{/block:Title}
+                
+                
+                {block:NotReblog}
+                {Body}
+                {/block:NotReblog}
+                
+                {block:RebloggedFrom}
+                <div class="reblog-list">
+                    {block:Reblogs}
+                    <hr/>
+                    <div class="post-reblog-trail-item{block:isOriginalEntry} original-reblog-content{/block:isOriginalEntry}">
+                        <p class="post-reblog-header">
+                            {block:IsActive}
+                            <a target="_blank" class="post-tumblelog-name" href="{Permalink}">{Username}:</a>
+                            {/block:IsActive}
+                            {block:IsDeactivated}
+                            <s class="inactive post-tumblelog-name">{Username}:</s>
+                            {/block:IsDeactivated}
+                        </p>
+                        <div class="post-reblog-content">
+                            <div class="post-body">
+                                {Body}
+                            </div>
+                        </div>
+                    </div>
+                    {/block:Reblogs}
+                </div>
+                {/block:RebloggedFrom}
+                
+                
+            </div>
+        </div>
         {/block:Text}
 
         {block:Photo}
         <div class="photo">
             <img class="photo-post-img" src="{PhotoURL-HighRes}" data-original="{PhotoURL-HighRes}" alt="{PhotoAlt}" data-width="{PhotoWidth-HighRes}" data-height="{PhotoHeight-HighRes}" data-low-res="{PhotoURL-500}" data-high-res="{PhotoURL-HighRes}" />
             
-            {block:Caption}<div class="content caption {select:Post captions} {select:Post link underline}">{Caption}</div>{/block:Caption}
-            {block:PermalinkPage}
-                {block:Caption}<div class="content permalink-caption {select:Post captions} {select:Post link underline}">{Caption}</div>{/block:Caption}
-            {/block:PermalinkPage}
+            {block:Caption}<div class="content{block:PermalinkPage} permalink-caption{/block:PermalinkPage} caption {select:Post captions} {select:Post link underline}">{Caption}</div>{/block:Caption}
         </div>
         {/block:Photo}
 
@@ -1284,10 +1304,7 @@ $(document).tooltip({
                 {/block:Photos}
             </div>
             
-            {block:Caption}<div class="content caption {select:Post captions} {select:Post link underline}">{Caption}</div>{/block:Caption}
-            {block:PermalinkPage}
-                {block:Caption}<div class="content permalink-caption {select:Post captions} {select:Post link underline}">{Caption}</div>{/block:Caption}
-            {/block:PermalinkPage}
+            {block:Caption}<div class="content{block:PermalinkPage} permalink-caption{/block:PermalinkPage} caption {select:Post captions} {select:Post link underline}">{Caption}</div>{/block:Caption}
         </div>
         {/block:Photoset}
        
@@ -1328,10 +1345,7 @@ $(document).tooltip({
             <div class="clearfix"></div>
             {block:AudioPlayer}{AudioPlayer}{/block:AudioPlayer}
             
-            {block:Caption}<div class="content caption {select:Post captions}">{Caption}</div>{/block:Caption}
-            {block:PermalinkPage}
-                {block:Caption}<div class="content permalink-caption {select:Post captions}">{Caption}</div>{/block:Caption}
-            {/block:PermalinkPage}
+            {block:Caption}<div class="content{block:PermalinkPage} permalink-caption{/block:PermalinkPage} caption {select:Post captions}">{Caption}</div>{/block:Caption}
         </div></div>
         {/block:Audio}
 
@@ -1339,10 +1353,7 @@ $(document).tooltip({
         <div class="video">
             <div class="video-player">{Video-500}</div>
             
-            {block:Caption}<div class="content caption {select:Post captions} {select:Post link underline}">{Caption}</div>{/block:Caption}
-            {block:PermalinkPage}
-                {block:Caption}<div class="content permalink-caption {select:Post captions} {select:Post link underline}">{Caption}</div>{/block:Caption}
-            {/block:PermalinkPage}
+            {block:Caption}<div class="content{block:PermalinkPage} permalink-caption{/block:PermalinkPage} caption {select:Post captions} {select:Post link underline}">{Caption}</div>{/block:Caption}
         </div>
         {/block:Video}
 
@@ -1361,19 +1372,19 @@ $(document).tooltip({
         <div class="infobox">
             <div class="first-row">
                 <div>
-                    <a href="{Permalink}" class="tooltip" title="{TimeAgo}">{ShortMonth} {DayOfMonth}, {Year}</a>{block:RebloggedFrom} <i class="fa fa-retweet" aria-hidden="true"></i> <a href="{ReblogParentURL}">{ReblogParentName}</a>{block:PermalinkPage} <i class="fa fa-pencil" aria-hidden="true"></i> <a href="{ReblogRootURL}">{ReblogRootName}</a>{/block:PermalinkPage}{/block:RebloggedFrom} — <a href="{Permalink}" class="tooltip" title="Permalink">{NoteCountWithLabel}</a>{block:HasTags}<span class="tag-toggle {select:Post tags}"> — <span>Tags</span></span>{/block:HasTags}
+                    <a href="{Permalink}" title="{TimeAgo}">{ShortMonth} {DayOfMonth}, {Year}</a>{block:RebloggedFrom} <i class="fa fa-retweet" aria-hidden="true"></i> <a href="{ReblogParentURL}">{ReblogParentName}</a>{block:PermalinkPage} <i class="fa fa-pencil-alt" aria-hidden="true"></i> <a href="{ReblogRootURL}">{ReblogRootName}</a>{/block:PermalinkPage}{/block:RebloggedFrom} — <a href="{Permalink}" title="Permalink">{NoteCountWithLabel}</a>{block:HasTags}<span class="tag-toggle {select:Post tags}"> — <span>Tags</span></span>{/block:HasTags}
                 </div>
                 
                 <div>
                     <ul class="rebloglike">
-                        <li class="like-button tooltip" title="Like">
+                        <li class="like-button" title="Like">
                             {LikeButton size="14"}
                             <svg width="14" height="14" viewBox="0 0 32 32"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <path d="M29.714 10.643q0-1.446-0.384-2.554t-0.982-1.759-1.455-1.063-1.679-0.554-1.75-0.143-2 0.455-1.973 1.143-1.545 1.286-1.071 1.098q-0.321 0.393-0.875 0.393t-0.875-0.393q-0.429-0.5-1.071-1.098t-1.545-1.286-1.973-1.143-2-0.455-1.75 0.143-1.679 0.554-1.455 1.063-0.982 1.759-0.384 2.554q0 3 3.339 6.339l10.375 10 10.357-9.982q3.357-3.357 3.357-6.357zM32 10.643q0 3.946-4.089 8.036l-11.125 10.714q-0.321 0.321-0.786 0.321t-0.786-0.321l-11.143-10.75q-0.179-0.143-0.491-0.464t-0.991-1.17-1.214-1.741-0.955-2.161-0.42-2.464q0-3.929 2.268-6.143t6.268-2.214q1.107 0 2.259 0.384t2.143 1.036 1.705 1.223 1.357 1.214q0.643-0.643 1.357-1.214t1.705-1.223 2.143-1.036 2.259-0.384q4 0 6.268 2.214t2.268 6.143z"></path>
                             </svg>
                         </li>
             
-                        <li class="reblog-button tooltip" title="Reblog">
+                        <li class="reblog-button" title="Reblog">
                             <a href="{ReblogURL}"><svg width="14" height="14" viewBox="0 0 35 35" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <path d="M27.802 5.197c-2.925-3.194-7.13-5.197-11.803-5.197-8.837 0-16 7.163-16 16h3c0-7.18 5.82-13 13-13 3.844 0 7.298 1.669 9.678 4.322l-4.678 4.678h11v-11l-4.198 4.197z"></path>
                                 <path d="M29 16c0 7.18-5.82 13-13 13-3.844 0-7.298-1.669-9.678-4.322l4.678-4.678h-11v11l4.197-4.197c2.925 3.194 7.13 5.197 11.803 5.197 8.837 0 16-7.163 16-16h-3z"></path>
