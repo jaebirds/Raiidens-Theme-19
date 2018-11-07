@@ -4,8 +4,8 @@
  |
  |  Theme #19 by raiidens (@ tumblr)
  |  Published September 2016
- |	Updated October 2018
- |  Ver. 3.02
+ |	Updated November 2018
+ |  Ver. 3.03
  |
  |  Edit as much as you like, but please do not
  |  claim as your own work, and leave credit somewhere.
@@ -70,9 +70,13 @@
 <meta name="select:Post tags" content="post-tags-default" title="click label to show">
 <meta name="select:Post tags" content="post-tags-always-show" title="always show">
 
-<meta name="select:Nav menu links" content="center" title="centered">
-<meta name="select:Nav menu links" content="left" title="left">
-<meta name="select:Nav menu links" content="right" title="right">
+<meta name="select:Nav menu logo" content="nav-logo-disabled" title="disabled">
+<meta name="select:Nav menu logo" content="nav-logo-enabled" title="enabled">
+
+<meta name="select:Nav menu links" content="nav-menu-center-logo-left" title="centered, logo on left">
+<meta name="select:Nav menu links" content="nav-menu-center-logo-right" title="centered, logo on right">
+<meta name="select:Nav menu links" content="nav-menu-left" title="left">
+<meta name="select:Nav menu links" content="nav-menu-right" title="right">
 
 <meta name="select:Ask link" content="ask-link-enabled" title="enabled">
 <meta name="select:Ask link" content="ask-link-disabled" title="disabled">
@@ -102,6 +106,7 @@
 
 <meta name="image:Background" content="">
 <meta name="image:Header" content="https://static.tumblr.com/o4povtk/7UXodk8gt/imageedit_2_6720559116.jpg">
+<meta name="image:Nav logo" content="">
 <meta name="image:Custom avatar" content="https://static.tumblr.com/o4povtk/Te8odk93w/comp_1__0_00_00_00___5_.jpg">
 
 <meta name="color:Background" content="#EEE">
@@ -624,12 +629,36 @@ a:hover {color: {color:Post link hover};}
     top: 50%;
     width: 95%;
     padding: 0px 30px;
-    text-align: {select:Nav menu links};
     transform: translateY(-50%);
-    display: inline-block;
+    z-index: 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+.nav-menu-left, .nav-menu-right {justify-content: space-between;}
+.nav-menu-left .logo, .nav-menu-center-logo-right .logo {order: 2;}
+.nav-menu-right.nav-logo-disabled {justify-content: flex-end;}
 
-.link {
+.link-container .logo {
+    height: 75px;
+    width: 120px;
+    background-image: url('{image:Nav logo}');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s;
+}
+.link-container .logo.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+.nav-menu-center-logo-left .logo {margin-right: 20px;}
+.nav-menu-center-logo-right .logo {margin-left: 20px;}
+.nav-logo-disabled .logo {display: none !important;}
+
+.link-container .link {
     padding: 10px 3px;
     margin: 0px 5px;
     font-family: {font:Nav link font};
@@ -642,18 +671,18 @@ a:hover {color: {color:Post link hover};}
 
 .link-container a {color: {color:Nav link text};}
 
-.link.scrolled {
+.link-container .link.scrolled {
     color: {color:Nav link text on scroll};
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.0);
 }
-.menu-bar-scrolled .link.link-selected {
+.menu-bar-scrolled .link-container .link.link-selected {
     color: {color:Nav link text selected};
     text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.0);
 }
 
 #msg-link.ask-link-disabled,
 #msg-container.ask-link-disabled,
-.link.extab-disabled,
+.link-container .link.extab-disabled,
 .page-tab.extab-disabled
 {
     display: none !important;
@@ -743,7 +772,7 @@ a:hover {color: {color:Post link hover};}
     justify-content: space-between;
 }
 
-#sidebar-container {
+.sidebar-container {
     position: absolute;
     width: 180px;
     height: auto;
@@ -753,23 +782,23 @@ a:hover {color: {color:Post link hover};}
     z-index: 9;
     display: none;
 }
-#sidebar-container.sidebar-on-left {
+.sidebar-container.sidebar-on-left {
     left: 50%;
     margin-left: -450px;
     display: block;
 }
-#sidebar-container.sidebar-on-left.post-size-540 {margin-left: -490px;}
-#sidebar-container.sidebar-on-left.post-size-400 {margin-left: -410px;}
-#sidebar-container.sidebar-on-left.post-size-250 {margin-left: -330px;}
-#sidebar-container.sidebar-on-right {
+.sidebar-container.sidebar-on-left.post-size-540 {margin-left: -490px;}
+.sidebar-container.sidebar-on-left.post-size-400 {margin-left: -410px;}
+.sidebar-container.sidebar-on-left.post-size-250 {margin-left: -330px;}
+.sidebar-container.sidebar-on-right {
     right: 50%;
     margin-right: -450px;
     display: block;
 }
-#sidebar-container.sidebar-on-right.post-size-540 {margin-right: -490px;}
-#sidebar-container.sidebar-on-right.post-size-400 {margin-right: -410px;}
-#sidebar-container.sidebar-on-right.post-size-250 {margin-right: -330px;}
-#sidebar-container.sidebar-disable {
+.sidebar-container.sidebar-on-right.post-size-540 {margin-right: -490px;}
+.sidebar-container.sidebar-on-right.post-size-400 {margin-right: -410px;}
+.sidebar-container.sidebar-on-right.post-size-250 {margin-right: -330px;}
+.sidebar-container.sidebar-disable {
     display: none;
 }
 
@@ -807,7 +836,7 @@ a:hover {color: {color:Post link hover};}
     margin-bottom: 6px;
 }
 
-#sidebar-close {
+.sidebar-close {
     background-color: {color:Sidebar close background};
     height: 20px;
     width: 100%;
@@ -818,6 +847,7 @@ a:hover {color: {color:Post link hover};}
     position: absolute;
     height: 10px;
     width: 100%;
+    max-width: 180px;
     padding: 3px 0px;
     text-align: center;
 }
@@ -880,6 +910,8 @@ a:hover {color: {color:Post link hover};}
     opacity: 0px;
     pointer-events: none;
 }
+
+#content .sidebar-container {display: none;}
 
 #visitor-info {
     position: absolute;
@@ -962,8 +994,18 @@ a:hover {color: {color:Post link hover};}
 .back-to-top:hover a, .back-to-top:hover i {color: {color:Back to top button hover};}
 
 @media screen and (max-width: 1020px) {
-    #sidebar-container {
+    .sidebar-container {
         display: none !important;
+    }
+    #content .sidebar-container {
+        display: block !important;
+        position: static;
+        top: unset !important;
+        left: unset !important;
+        right: unset !important;
+        margin: 60px auto !important;
+        margin-top: 80px !important;
+        cursor: default;
     }
 }
 
@@ -1056,18 +1098,21 @@ $(document).tooltip({
 
 <div id="menu-bar">
     <div id="hamburger-menu"><span class="burg"></span><span class="burg"></span><span class="burg"></span><span class="burg"></span></div>
-    <div class="link-container">
-        <a href="/"><div class="link" id="home-link">home</div></a>
-        <div class="link link-selected" id="content-link" data-id="content">content</div>
-        <div class="link {select:Ask link}" id="msg-link" data-id="msg-container">message</div>
-        <div class="link {select:Extra tab 1}" id="extab1-link" data-id="extab1-container">{text:Extra tab 1 link text}</div>
-		<div class="link {select:Extra tab 2}" id="extab2-link" data-id="extab2-container">{text:Extra tab 2 link text}</div>
-		<div class="link {select:Extra tab 3}" id="extab3-link" data-id="extab3-container">{text:Extra tab 3 link text}</div>
-        {block:IfLink1Title}<a href="{text:Link 1 URL}"><div class="link">{text:Link 1 Title}</div></a>{/block:IfLink1Title}
-        {block:IfLink2Title}<a href="{text:Link 2 URL}"><div class="link">{text:Link 2 Title}</div></a>{/block:IfLink2Title}
-        {block:IfLink3Title}<a href="{text:Link 3 URL}"><div class="link">{text:Link 3 Title}</div></a>{/block:IfLink3Title}
-        {block:IfLink4Title}<a href="{text:Link 4 URL}"><div class="link">{text:Link 4 Title}</div></a>{/block:IfLink4Title}
-		<a href="http://raiidens.tumblr.com/tagged/themesbyraiidens"><div class="link tooltip" title="by raiidens">theme</div></a>
+    <div class="link-container {select:Nav menu links} {select:Nav menu logo}">
+        <a href="/" class="logo"></a>
+        <div>
+            <a href="/"><div class="link" id="home-link">home</div></a>
+            <div class="link link-selected" id="content-link" data-id="content">content</div>
+            <div class="link {select:Ask link}" id="msg-link" data-id="msg-container">message</div>
+            <div class="link {select:Extra tab 1}" id="extab1-link" data-id="extab1-container">{text:Extra tab 1 link text}</div>
+    		<div class="link {select:Extra tab 2}" id="extab2-link" data-id="extab2-container">{text:Extra tab 2 link text}</div>
+    		<div class="link {select:Extra tab 3}" id="extab3-link" data-id="extab3-container">{text:Extra tab 3 link text}</div>
+            {block:IfLink1Title}<a href="{text:Link 1 URL}"><div class="link">{text:Link 1 Title}</div></a>{/block:IfLink1Title}
+            {block:IfLink2Title}<a href="{text:Link 2 URL}"><div class="link">{text:Link 2 Title}</div></a>{/block:IfLink2Title}
+            {block:IfLink3Title}<a href="{text:Link 3 URL}"><div class="link">{text:Link 3 Title}</div></a>{/block:IfLink3Title}
+            {block:IfLink4Title}<a href="{text:Link 4 URL}"><div class="link">{text:Link 4 Title}</div></a>{/block:IfLink4Title}
+    		<a href="http://raiidens.tumblr.com/tagged/themesbyraiidens"><div class="link tooltip" title="by raiidens">theme</div></a>
+    	</div>
     </div>
     
     
@@ -1185,7 +1230,7 @@ $(document).tooltip({
     
     
     
-    <div id="sidebar-container" class="{select:Sidebar} post-size-{select:Post width}">
+    <div class="sidebar-container {select:Sidebar} post-size-{select:Post width}">
         <div class="dp {select:Sidebar avatar}"></div>
         <div class="sidebar-wrapper"><div class="sidebar-content {select:Post link underline}">
             <h3>About</h3>
@@ -1223,7 +1268,7 @@ $(document).tooltip({
             </div>
             
         </div>
-            <div id="sidebar-close">
+            <div class="sidebar-close">
                 <div class="sidebar-close-up"><i class="fa fa-chevron-up" aria-hidden="true"></i></div>
                 <div class="sidebar-close-down" style="display: none;"><i class="fa fa-chevron-down" aria-hidden="true"></i></div>
             </div>
@@ -1500,10 +1545,13 @@ $(document).ready(function(){
     $(document).on("mouseleave", ".tumblr-box", function() {
        $(this).parent().find("img").removeClass("hover"); 
     });
+    
+    $(".sidebar-container").clone().prependTo("#content");
    
    $(window).scroll(function(){
     if ($(window).scrollTop() >= 425) {
        $("#menu-bar").addClass("menu-bar-scrolled");
+       $(".link-container .logo").addClass("visible");
        $(".tmblr-iframe").addClass("tmblr-iframe-scrolled");
        $("#visitor-info").animate({opacity: "1"}, 500);
        $(".link").addClass("scrolled");
@@ -1513,6 +1561,7 @@ $(document).ready(function(){
     }
     else {
         $("#menu-bar").removeClass("menu-bar-scrolled");
+        $(".link-container .logo").removeClass("visible");
         $(".tmblr-iframe").removeClass("tmblr-iframe-scrolled");
         $(".back-to-top").removeClass("visible");
         $("#visitor-info").animate({opacity: "0"}, 0);
@@ -1565,12 +1614,12 @@ $(document).ready(function(){
         $('html, body').animate({scrollTop: 425}, 1000);
     });
     
-    $("#sidebar-container").draggable();
+    $("#menu-bar .sidebar-container").draggable();
     
-    $("#sidebar-close").click(function() {
-        $(".sidebar-content").toggle("blind", 500);
-        $(".sidebar-close-up").fadeToggle(500);
-        $(".sidebar-close-down").fadeToggle(500);
+    $(".sidebar-close").click(function() {
+        $(this).parent().find(".sidebar-content").toggle("blind", 500);
+        $(this).find(".sidebar-close-up").fadeToggle(500);
+        $(this).find(".sidebar-close-down").fadeToggle(500);
     });
 
    
