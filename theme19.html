@@ -5,7 +5,7 @@
  |  Theme #19 by raiidens (@ tumblr)
  |  Published September 2016
  |	Updated November 2018
- |  Ver. 3.03
+ |  Ver. 3.04
  |
  |  Edit as much as you like, but please do not
  |  claim as your own work, and leave credit somewhere.
@@ -1582,19 +1582,6 @@ $(document).ready(function(){
     });
     
     $(window).scroll();
-    
-    if ("{select:Post comments}" != "post-comments-default") {
-        $(".post blockquote").each(function() {
-            $(this).parent().prepend($(this).children());
-            $(this).remove();
-        });
-    
-        $(".post a.tumblr_blog").each(function() {
-            var $user = $(this).parent();
-            $user.html($(this));
-            $user.prepend("<hr/>").append(":");
-        });
-    }
    
    $("#top-container").show();
    $("#menu-bar").show();
