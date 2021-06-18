@@ -4,8 +4,8 @@
  |
  |  Theme #19 by raiidens (@ tumblr)
  |  Published September 2016
- |	Updated June 2019
- |  Ver. 3.05
+ |	Updated June 2021
+ |  Ver. 3.06
  |
  |  Edit as much as you like, but please do not
  |  claim as your own work, and leave credit somewhere.
@@ -123,6 +123,11 @@
 <meta name="color:Nav link text on scroll" content="#888">
 <meta name="color:Nav link text selected" content="#E1ADAF">
 <meta name="color:Menu bar on scroll" content="#FFF">
+<meta name="color:Mobile nav hamburger icon" content="#FFF">
+<meta name="color:Mobile nav hamburger icon on scroll" content="#E1ADAF">
+<meta name="color:Mobile nav link text" content="#FFF">
+<meta name="color:Mobile nav link text on scroll" content="#888">
+<meta name="color:Mobile nav link text selected" content="#E1ADAF">
 
 <meta name="color:Sidebar background" content="#FFF">
 <meta name="color:Sidebar border" content="#CCC">
@@ -720,7 +725,7 @@ a:hover {color: {color:Post link hover};}
     position: absolute;
     height: 9px;
     width: 100%;
-    background-color: {color:Nav link text};
+    background-color: {color:Mobile nav hamburger icon};
     border-radius: 9px;
     opacity: 1;
     left: 0;
@@ -733,9 +738,7 @@ a:hover {color: {color:Post link hover};}
     -o-transition: .25s ease-in-out;
     transition: .25s ease-in-out;
 }
-#hamburger-menu span.scrolled {
-    background-color: {color:Nav link text on scroll};
-}
+#hamburger-menu span.scrolled {background-color: {color:Mobile nav hamburger icon on scroll};}
 
 #hamburger-menu span:nth-child(1) {top: 0px;}
 #hamburger-menu span:nth-child(2), #hamburger-menu span:nth-child(3) {top: 18px;}
@@ -1011,23 +1014,34 @@ a:hover {color: {color:Post link hover};}
 
 
 @media screen and (max-width: 700px) {
+    
+    #hamburger-menu {display: inline-block;}
+    
     .link-container {
         background-color: {color:Menu bar on scroll};
         margin-top: 35px;
-        padding-right: 0px;
-        left: 0px;
+        padding: 0;
+        left: 0;
         transform: none;
         width: 100%;
         display: none;
         z-index: 9;
     }
     
-    .link {
+    .link-container .link {
         display: block;
-        margin: 8px;
+        padding: 8px;
+        text-align: center;
     }
     
-    #hamburger-menu {display: inline-block;}
+    .link-container a {color: {color:Mobile nav link text};}
+    .link-container .link.scrolled {color: {color:Mobile nav link text on scroll};}
+    .menu-bar-scrolled .link-container .link.link-selected {color: {color:Mobile nav link text selected};}
+    
+    .tmblr-iframe-scrolled {
+        top: 10px !important;
+        right: 100px !important;
+    }
 }
 
 @media screen and (max-width: 545px) {
